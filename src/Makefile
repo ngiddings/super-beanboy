@@ -1,4 +1,4 @@
-objects = machine.o
+objects = machine.o instructions.o
 main = main.o
 test = tests.o
 beanboy_bin = beanboy

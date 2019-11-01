@@ -33,6 +33,4 @@ typedef void (*instruction)(machine_state* state);
 
 void initialize_machine(machine_state* state);
 
-void add(machine_state* state);
-
 #endif
