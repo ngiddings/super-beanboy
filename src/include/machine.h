@@ -19,11 +19,23 @@ typedef struct machine_state_t
 {
 	void* ram;
 	uint16_t registers[4];
-	flags flag_register;
+	union
+	{
+		uint16_t flag_data;
+		flags flag_register;
+	}
 } machine_state;
+
+typedef struct opcode_t
+{
+	uint8_t code	: 4;
+	uint8_t args	: 4;
+} opcode;
 
 typedef void (*instruction)(machine_state* state);
 
 void initialize_machine(machine_state* state);
+
+void do_instruction(machine_state* state);
 
 #endif

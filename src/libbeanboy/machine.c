@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "machine.h"
 #include "instructions.h"
@@ -24,4 +25,10 @@ void initialize_machine(machine_state* state)
 	opcodes[13] = &transfer;
 	opcodes[14] = &jump_near;
 	opcodes[15] = &jump_far;
+}
+
+void do_instruction(machine_state* state)
+{
+	opcode inst = *((opcode*) (state->ram + state->registers[3]));
+	opcodes[inst.code](state);
 }

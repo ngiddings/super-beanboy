@@ -1,3 +1,4 @@
 *.o
-beanboy
+*.so
+beanboy-emul
 beanboy-test

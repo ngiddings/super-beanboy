@@ -1,22 +1,19 @@
-objects = machine.o instructions.o
-main = main.o
-test = tests.o
-beanboy_bin = beanboy
-test_bin = beanboy-test
-
-all: quark tests
+all:
+	make -C libbeanboy
+	make -C beanboy-emul
+	make -C tests
 
 install:
-	cp beanboy64 $(PREFIX)/bin
+	mkdir -p /usr/include/beanboy
+	cp include/*.h $(PREFIX)/usr/include/beanboy
+	make -C libbeanboy install
+	make -C beanboy-emul install
 
 uninstall:
-	rm $(PREFIX)/bin
+	rm -f $(PREFIX)/usr/include/beanboy/*
+	make -C libbeanboy uninstall
+	make -C beanboy-emul uninstall
 
 clean:
-	rm $(objects)
-
-quark: $(objects) $(main)
-	gcc $(objects) $(main) -o $(beanboy_bin)
-
-tests: $(objects) $(test)
-	gcc $(objects) $(test) -o $(test_bin)
+	make -C libbeanboy clean
+	make -C libbeanboy clean
