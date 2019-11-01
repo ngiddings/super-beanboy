@@ -19,7 +19,7 @@ typedef struct machine_state_t
 {
 	void* ram;
 	uint16_t registers[4];
-	uint16_t flags;
+	flags flag_register;
 } machine_state;
 
 typedef struct arithmetic_t
