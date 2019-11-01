@@ -3,6 +3,18 @@
 
 #include <stdint.h>
 
+typedef struct flags_t
+{
+	uint16_t carry		: 1;
+	uint16_t zero		: 1;
+	uint16_t overflow	: 1;
+	uint16_t negative	: 1;
+	uint16_t queue		: 1;
+	uint16_t interrupt	: 1;
+	uint16_t reserved	: 3;
+	uint16_t unused		: 8;
+} flags;
+
 typedef struct machine_state_t
 {
 	void* ram;

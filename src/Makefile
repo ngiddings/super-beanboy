@@ -1,7 +1,7 @@
 objects = machine.o
 main = main.o
 test = tests.o
-beanboy_bin = beanboy64
+beanboy_bin = beanboy
 test_bin = beanboy-test
 
 all: quark tests
