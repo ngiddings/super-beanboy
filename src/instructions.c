@@ -2,7 +2,7 @@
 
 void add(machine_state* state)
 {
-	arithmetic* opcode = state->ram + state->instruction_pointer;
+	arithmetic* opcode = state->ram + state->registers[3];
 	state->registers[opcode->dest] = state->registers[opcode->dest] + state->registers[opcode->src];	
 }
 
