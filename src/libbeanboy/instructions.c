@@ -1,22 +1,24 @@
 #include "instructions.h"
 
+#include <stdio.h>
+
 void add(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] += state->registers[inst->src];	
 	state->registers[3] += 1;
 }
 
 void add_carry(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] += state->registers[inst->src] + state->flag_register.carry;	
 	state->registers[3] += 1;
 }
 
 void add_imm(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] += inst->src;	
 	state->registers[3] += 1;
 }
@@ -32,6 +34,7 @@ void shift(machine_state* state)
 	{
 		state->registers[inst->dest] >>= state->registers[inst->src];
 	}
+	state->registers[3] += 1;
 }
 
 void rotate(machine_state* state)
@@ -45,11 +48,12 @@ void rotate(machine_state* state)
 	{
 		state->registers[inst->dest] = (state->registers[inst->dest] >> state->registers[inst->src]) | (state->registers[inst->dest] << (16 - state->registers[inst->src]));
 	}
+	state->registers[3] += 1;
 }
 
 void exchange(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	uint16_t buffer = state->registers[inst->dest];
 	state->registers[inst->dest] = state->registers[inst->src];
 	state->registers[inst->src] = buffer;
@@ -58,28 +62,28 @@ void exchange(machine_state* state)
 
 void bit_and(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] &= state->registers[inst->src];	
 	state->registers[3] += 1;
 }
 
 void bit_ior(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] |= state->registers[inst->src];	
 	state->registers[3] += 1;
 }
 
 void bit_xor(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	state->registers[inst->dest] ^= state->registers[inst->src];	
 	state->registers[3] += 1;
 }
 
 void bit_not(machine_state* state)
 {
-	arithmetic* inst = state->ram + state->registers[3];
+	arithmetic_inst* inst = state->ram + state->registers[3];
 	switch(inst->src)
 	{
 	case 0:
@@ -99,6 +103,7 @@ void bit_not(machine_state* state)
 void set(machine_state* state)
 {
 	set_inst* inst = state->ram + state->registers[3];
+	printf("doing set instruction with dest=%X, data=%X\n", inst->dest, inst->data);
 	state->registers[inst->dest] = inst->data;
 	state->registers[3] += 3;
 }
@@ -114,11 +119,13 @@ void flag_io(machine_state* state)
 	{
 		state->flag_data &= ~(1 << inst->flagID);
 	}
+	state->registers[3] += 1;
 }
 
 void interrupt(machine_state* state)
 {
 	// ????
+	state->registers[3] += 1;
 }
 
 void transfer(machine_state* state)
@@ -146,14 +153,17 @@ void transfer(machine_state* state)
 			*((uint16_t*) (state->ram + state->registers[inst->dest] + inst->arg)) = state->registers[0];
 		}
 	}
+	state->registers[3] += 2;
 }
 
 void jump_near(machine_state* state)
 {
 	// ???
+	state->registers[3] += 2;
 }
 
 void jump_far(machine_state* state)
 {
 	// ???
+	state->registers[3] += 1;
 }

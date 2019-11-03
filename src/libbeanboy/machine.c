@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "machine.h"
 #include "instructions.h"
@@ -30,5 +31,6 @@ void initialize_machine(machine_state* state)
 void do_instruction(machine_state* state)
 {
 	opcode inst = *((opcode*) (state->ram + state->registers[3]));
-	opcodes[inst.code](state);
+	printf("doing instruction with opcode %X and args %X\n", inst.code, inst.args);
+	(*opcodes[inst.code])(state);
 }
