@@ -1,5 +1,4 @@
 # Beanboy CPU
----
 
 ## Registers
 
