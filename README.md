@@ -1,5 +1,8 @@
-Registers
+# Beanboy CPU
 ---
+
+## Registers
+
 
 - R0		    Caller preserved, return value
 - R1		    Caller preserved, argument 1
@@ -18,8 +21,7 @@ Registers
 - R14 [IP]	    Pointer to the current instruction
 - R15 [ZR]	    Always set to zero
 
-Instructions
----
+## Instructions
 
 ADD
 ADC
