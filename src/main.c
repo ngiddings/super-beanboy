@@ -43,7 +43,7 @@ int main(int argc, char** args)
 	
 	machine_state machine;
 	initialize_machine(&machine);
-	machine.registers[3] = 0;
+	machine.registers[REG_IP] = 0;
 	fread(machine.ram, 1, fileSize, binary);
 	dump_registers(&machine);
 	do_instruction(&machine);
